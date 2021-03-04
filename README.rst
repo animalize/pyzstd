@@ -5,7 +5,7 @@ Introduction
 
 The API is similar to Python's bz2/lzma/zlib module.
 
-Includes zstd v1.4.8 source code.
+Includes zstd v1.4.9 source code.
 
 
 Links
@@ -18,6 +18,10 @@ GitHub: https://github.com/animalize/pyzstd
 
 Release note
 ------------
+**0.14.3  (Mar 4, 2021)**
+
+Update zstd source code from v1.4.8 to `v1.4.9 <https://github.com/facebook/zstd/releases/tag/v1.4.9>`_.
+
 **0.14.2  (Feb 24, 2021)**
 
 #. Add two convenient functions: `compress_stream() <https://pyzstd.readthedocs.io/en/latest/#compress_stream>`_, `decompress_stream() <https://pyzstd.readthedocs.io/en/latest/#decompress_stream>`_.
