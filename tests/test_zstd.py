@@ -993,6 +993,43 @@ class CompressorDecompressorTestCase(unittest.TestCase):
         self.assertFalse(d.needs_input)
         self.assertEqual(d.unused_data + bi.read(), TRAIL)
 
+    def test_compress_empty(self):
+        # output empty content frame
+        self.assertNotEqual(compress(b''), b'')
+        self.assertNotEqual(richmem_compress(b''), b'')
+
+        c = ZstdCompressor()
+        self.assertNotEqual(c.compress(b'', c.FLUSH_FRAME), b'')
+
+        c = RichMemZstdCompressor()
+        self.assertNotEqual(c.compress(b''), b'')
+
+        # output b''
+        bi = BytesIO(b'')
+        bo = BytesIO()
+        compress_stream(bi, bo)
+        self.assertEqual(bo.getvalue(), b'')
+        bi.close()
+        bo.close()
+
+    def test_decompress_empty(self):
+        self.assertEqual(decompress(b''), b'')
+
+        d = ZstdDecompressor()
+        self.assertEqual(d.decompress(b''), b'')
+        self.assertFalse(d.eof)
+
+        d = EndlessZstdDecompressor()
+        self.assertEqual(d.decompress(b''), b'')
+        self.assertTrue(d.at_frame_edge)
+
+        bi = BytesIO(b'')
+        bo = BytesIO()
+        decompress_stream(bi, bo)
+        self.assertEqual(bo.getvalue(), b'')
+        bi.close()
+        bo.close()
+
 class DecompressorFlagsTestCase(unittest.TestCase):
 
     def setUp(self):

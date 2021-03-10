@@ -47,6 +47,8 @@ Common functions
 
     Compress *data*, return the compressed data.
 
+    If compress ``b''``, return an empty content frame (9 bytes or more).
+
     :param data: Data to be compressed.
     :type data: bytes-like object
     :param level_or_option: When it's an ``int`` object, it represents :ref:`compression level<compression_level>`. When it's a ``dict`` object, it contains :ref:`advanced compression parameters<CParameter>`. The default value ``None`` means to use zstd's default compression level/parameters.
@@ -101,6 +103,8 @@ Rich memory compression
 
     The parameters are the same as :py:func:`compress` function.
 
+    If compress ``b''``, return an empty content frame (9 bytes or more).
+
 
 .. py:class:: RichMemZstdCompressor
 
@@ -117,6 +121,8 @@ Rich memory compression
     .. py:method:: compress(self, data)
 
         Compress *data* use :ref:`rich memory mode<rich_mem>`, return a single zstd :ref:`frame<frame_block>`.
+
+        If compress ``b''``, return an empty content frame (9 bytes or more).
 
         :param data: Data to be compressed.
         :type data: bytes-like object
@@ -146,7 +152,9 @@ Streaming compression
 
     A fast and convenient function, it compresses *input_stream* and writes the compressed data to *output_stream*. It doesn't close the streams.
 
-    The default values of *read_size* and *write_size* parameters are the buffer sizes recommended by zstd, increasing them may be faster.
+    If input stream is ``b''``, nothing will be written to output stream.
+
+    The default values of *read_size* and *write_size* parameters are the buffer sizes recommended by zstd, increasing them may be faster, and reduce the number of callback function calls.
 
     .. versionadded:: 0.14.2
 
@@ -297,7 +305,7 @@ Streaming decompression
 
     Supports multiple concatenated frames.
 
-    The default values of *read_size* and *write_size* parameters are the buffer sizes recommended by zstd, increasing them may be faster.
+    The default values of *read_size* and *write_size* parameters are the buffer sizes recommended by zstd, increasing them may be faster, and reduce the number of callback function calls.
 
     .. versionadded:: 0.14.2
 
